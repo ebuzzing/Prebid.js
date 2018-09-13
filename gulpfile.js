@@ -20,6 +20,7 @@ var gulpif = require('gulp-if');
 var sourcemaps = require('gulp-sourcemaps');
 var through = require('through2');
 var fs = require('fs');
+var rename = require('gulp-rename');
 var jsEscape = require('gulp-js-escape');
 const path = require('path');
 const execa = require('execa');
@@ -150,6 +151,9 @@ function makeDevpackPkg() {
   return gulp.src([].concat(moduleSources, analyticsSources, 'src/prebid.js'))
     .pipe(helpers.nameModules(externalModules))
     .pipe(webpackStream(cloned, webpack))
+    .pipe(replace('$prebid.version$', prebid.version))
+    .pipe(replace('TRACKING_PORT_8080_TCP_ADDR:TRACKING_COLLECTOR_HOST_PORT', 'localhost:18100'))
+    .pipe(replace('SSP_PORT_8080_TCP_ADDR:SSP_PORT_8080_TCP_PORT', 'localhost:18100'))
     .pipe(gulp.dest('build/dev'))
     .pipe(connect.reload());
 }
@@ -440,6 +444,33 @@ function startIntegServer(dev = false) {
   return srv;
 }
 
+function copyQuality() {
+  return gulp.src('build/dist/prebid.js')
+    .pipe(replace('TRACKING_PORT_8080_TCP_ADDR:TRACKING_COLLECTOR_HOST_PORT', 'PREBID_HOST_ADDR:18281'))
+    .pipe(replace('SSP_PORT_8080_TCP_ADDR:SSP_PORT_8080_TCP_PORT', 'PREBID_HOST_ADDR:18100'))
+    .pipe(rename('prebid-quality.js'))
+    .pipe(gulp.dest('build/dist'))
+    .pipe(connect.reload());
+}
+
+function buildTeadsPrebidBundle() {
+  return gulp.src('build/dist/prebid.js')
+    .pipe(replace('SSP_PORT_8080_TCP_ADDR:SSP_PORT_8080_TCP_PORT', 'a.teads.tv'))
+    .pipe(replace('USER_SYNC_PORT_8083_TCP_ADDR:USER_SYNC_PORT_8083_TCP_PORT', 'sync.teads.tv'))
+    .pipe(rename('prebid-distrib.js'))
+    .pipe(gulp.dest('build/dist'))
+    .pipe(connect.reload());
+}
+
+function buildTeadsAdapater() {
+  return gulp.src('modules/teadsBidAdapter.js')
+    .pipe(replace('SSP_PORT_8080_TCP_ADDR:SSP_PORT_8080_TCP_PORT', 'a.teads.tv'))
+    .pipe(replace('USER_SYNC_PORT_8083_TCP_ADDR:USER_SYNC_PORT_8083_TCP_PORT', 'sync.teads.tv'))
+    .pipe(rename('teadsBidAdapterProd.js'))
+    .pipe(gulp.dest('build/dist'))
+    .pipe(connect.reload());
+}
+
 function startLocalServer(options = {}) {
   connect.server({
     https: argv.https,
@@ -544,6 +575,12 @@ gulp.task('e2e-test', gulp.series(requireNodeVersion(16), clean, 'build-bundle-p
 // other tasks
 gulp.task(bundleToStdout);
 gulp.task('bundle', gulpBundle.bind(null, false)); // used for just concatenating pre-built files with no build step
+
+// teads tasks
+gulp.task('copy-quality', gulp.series(copyQuality));
+gulp.task('build-distrib', gulp.series(buildTeadsPrebidBundle));
+gulp.task('build-teads-adapter-prod', gulp.series(buildTeadsAdapater));
+
 
 // build task for reviewers, runs test-coverage, serves, without watching
 gulp.task(viewReview);
