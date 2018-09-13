@@ -10,7 +10,7 @@ import {isAutoplayEnabled} from '../libraries/autoplayDetection/autoplay.js';
 
 const BIDDER_CODE = 'teads';
 const GVL_ID = 132;
-const ENDPOINT_URL = 'https://a.teads.tv/hb/bid-request';
+const ENDPOINT_URL = '//SSP_PORT_8080_TCP_ADDR:SSP_PORT_8080_TCP_PORT/hb/bid-request';
 const gdprStatus = {
   GDPR_APPLIES_PUBLISHER: 12,
   GDPR_APPLIES_GLOBAL: 11,
