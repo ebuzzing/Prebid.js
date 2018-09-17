@@ -26,7 +26,7 @@ docker run --rm -i --privileged \
   -v `pwd`:/var/www:rw \
   -w /var/www \
   ${REG_URL}/npm-builder:node-6-qa \
-  sh -c "yarn install && \
+  sh -c "npm install && \
     ./node_modules/gulp/bin/gulp.js test
   "
 

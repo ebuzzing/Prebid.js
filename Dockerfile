@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 # Install app dependencies
 COPY package.json .
 
-RUN yarn install
+RUN npm install
 
 COPY . .
 
@@ -12,4 +12,3 @@ EXPOSE 9999
 
 CMD ["./run.sh"]
 
-COPY . .
