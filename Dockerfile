@@ -11,4 +11,3 @@ COPY . .
 EXPOSE 9999
 
 CMD ["./run.sh"]
-

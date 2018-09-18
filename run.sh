@@ -3,8 +3,6 @@ set -xe
 
 ./node_modules/gulp/bin/gulp.js build
 ./node_modules/gulp/bin/gulp.js copy-quality
-./node_modules/gulp/bin/gulp.js build-distrib
-./node_modules/gulp/bin/gulp.js build-teads-adapter-prod
 
 declare -a arrenv=(
   "TRACKING_PORT_8080_TCP_ADDR"
@@ -31,4 +29,4 @@ do
   fi
 done
 
-./node_modules/gulp/bin/gulp.js express
+./node_modules/gulp/bin/gulp.js connect-server

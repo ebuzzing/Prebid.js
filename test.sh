@@ -27,7 +27,10 @@ docker run --rm -i --privileged \
   -w /var/www \
   ${REG_URL}/npm-builder:node-6-qa \
   sh -c "npm install && \
-    ./node_modules/gulp/bin/gulp.js test
+    ./node_modules/gulp/bin/gulp.js test&& \
+    ./node_modules/gulp/bin/gulp.js build && \
+    ./node_modules/gulp/bin/gulp.js build-distrib && \
+    ./node_modules/gulp/bin/gulp.js build-teads-adapter-prod
   "
 
 # Build

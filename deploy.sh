@@ -6,7 +6,7 @@ curl -sL http://dl.teads.net/teads-central/get.sh | sh -
 
 # DOCKER_IMAGE is mandatory.
 DOCKER_IMAGE=prebid
-DOCKER_TAG="master"
+DOCKER_TAG="master-teads"
 
 # DOCKER_IMAGE_ARTIFACTS_PATH is mandatory (where the files are in the docker image, this can be found in the Dockerfile).
 DOCKER_IMAGE_ARTIFACTS_PATH=build/dist
