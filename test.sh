@@ -20,19 +20,6 @@ sed -i'' -e "s/REGISTRY_URL_INJECTED_BY_TEST_SH/$REG_URL/" Dockerfile
 HASH=$(./teads-central vars hash)
 TAG=$(./teads-central vars tag)
 
-# Unit tests and build
-chmod g+s .
-docker run --rm -i --privileged \
-  -v `pwd`:/var/www:rw \
-  -w /var/www \
-  ${REG_URL}/npm-builder:node-6-qa \
-  sh -c "npm install && \
-    ./node_modules/gulp/bin/gulp.js test&& \
-    ./node_modules/gulp/bin/gulp.js build && \
-    ./node_modules/gulp/bin/gulp.js build-distrib && \
-    ./node_modules/gulp/bin/gulp.js build-teads-adapter-prod
-  "
-
 # Build
 docker build -t prebid:$HASH .
 
