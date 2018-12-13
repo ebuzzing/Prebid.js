@@ -155,7 +155,6 @@ function makeDevpackPkg() {
     .pipe(replace('TRACKING_PORT_8080_TCP_ADDR:TRACKING_COLLECTOR_HOST_PORT', 'localhost:18100'))
     .pipe(replace('SSP_PORT_8080_TCP_ADDR:SSP_PORT_8080_TCP_PORT', 'localhost:18100'))
     .pipe(gulp.dest('build/dev'))
-    .pipe(connect.reload());
 }
 
 function makeWebpackPkg(extraConfig = {}) {
@@ -450,7 +449,6 @@ function copyQuality() {
     .pipe(replace('SSP_PORT_8080_TCP_ADDR:SSP_PORT_8080_TCP_PORT', 'PREBID_HOST_ADDR:18100'))
     .pipe(rename('prebid-quality.js'))
     .pipe(gulp.dest('build/dist'))
-    .pipe(connect.reload());
 }
 
 function buildTeadsPrebidBundle() {
@@ -459,7 +457,6 @@ function buildTeadsPrebidBundle() {
     .pipe(replace('USER_SYNC_PORT_8083_TCP_ADDR:USER_SYNC_PORT_8083_TCP_PORT', 'sync.teads.tv'))
     .pipe(rename('prebid-distrib.js'))
     .pipe(gulp.dest('build/dist'))
-    .pipe(connect.reload());
 }
 
 function buildTeadsAdapater() {
@@ -468,7 +465,6 @@ function buildTeadsAdapater() {
     .pipe(replace('USER_SYNC_PORT_8083_TCP_ADDR:USER_SYNC_PORT_8083_TCP_PORT', 'sync.teads.tv'))
     .pipe(rename('teadsBidAdapterProd.js'))
     .pipe(gulp.dest('build/dist'))
-    .pipe(connect.reload());
 }
 
 function startLocalServer(options = {}) {
