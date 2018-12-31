@@ -9,6 +9,7 @@ RUN npm install
 RUN ./node_modules/gulp/bin/gulp.js test
 RUN ./node_modules/gulp/bin/gulp.js build
 RUN ./node_modules/gulp/bin/gulp.js copy-quality
+RUN ./node_modules/gulp/bin/gulp.js copy-ci
 RUN ./node_modules/gulp/bin/gulp.js build-distrib
 RUN ./node_modules/gulp/bin/gulp.js build-teads-adapter-prod
 

@@ -451,6 +451,13 @@ function copyQuality() {
     .pipe(gulp.dest('build/dist'))
 }
 
+function copyCI() {
+  return gulp.src('build/dist/prebid.js')
+    .pipe(replace('SSP_PORT_8080_TCP_ADDR:SSP_PORT_8080_TCP_PORT', 'WEB_FORMAT_CI:18100'))
+    .pipe(rename('prebid-ci.js'))
+    .pipe(gulp.dest('build/dist'))
+}
+
 function buildTeadsPrebidBundle() {
   return gulp.src('build/dist/prebid.js')
     .pipe(replace('SSP_PORT_8080_TCP_ADDR:SSP_PORT_8080_TCP_PORT', 'a.teads.tv'))
@@ -574,6 +581,7 @@ gulp.task('bundle', gulpBundle.bind(null, false)); // used for just concatenatin
 
 // teads tasks
 gulp.task('copy-quality', gulp.series(copyQuality));
+gulp.task('copy-ci', gulp.series(copyCI));
 gulp.task('build-distrib', gulp.series(buildTeadsPrebidBundle));
 gulp.task('build-teads-adapter-prod', gulp.series(buildTeadsAdapater));
 gulp.task('connect-server', gulp.series(exposeServer));

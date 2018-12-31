@@ -10,6 +10,7 @@ declare -a arrenv=(
   "USER_SYNC_PORT_8083_TCP_PORT"
   "PREBID_HOST_PORT"
   "PREBID_HOST_ADDR"
+  "WEB_FORMAT_CI"
 );
 
 for i in "${arrenv[@]}"
@@ -21,7 +22,8 @@ do
     sed -i "s/$VALPATTERN/$VAL/g" \
     ./modules/teadsBidAdapter.js \
     ./build/dist/prebid.js \
-    ./build/dist/prebid-quality.js
+    ./build/dist/prebid-quality.js \
+    ./build/dist/prebid-ci.js
   fi
 done
 
