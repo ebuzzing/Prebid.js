@@ -1,4 +1,4 @@
-FROM REGISTRY_URL_INJECTED_BY_TEST_SH/npm-builder:node-6-qa
+FROM REGISTRY_URL_INJECTED_BY_TEST_SH/npm-builder:node-8-qa
 
 WORKDIR /usr/src/app
 # Install app dependencies
