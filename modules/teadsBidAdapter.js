@@ -43,6 +43,7 @@ export const spec = {
       referrer: getReferrerInfo(bidderRequest),
       pageReferrer: document.referrer,
       networkBandwidth: getConnectionDownLink(window.navigator),
+      timeToFirstByte: getTimeToFirstByte(window),
       data: bids,
       deviceWidth: screen.width,
       hb_version: '$prebid.version$'
@@ -121,6 +122,16 @@ function getReferrerInfo(bidderRequest) {
 
 function getConnectionDownLink(nav) {
   return nav && nav.connection && nav.connection.downlink >= 0 ? nav.connection.downlink.toString() : '';
+}
+
+function getTimeToFirstByte(win) {
+  const performance = win.performance || win.webkitPerformance || win.msPerformance || win.mozPerformance;
+
+  let ttfb = null;
+  if (performance && performance.timing && performance.timing.responseStart >= 0 && performance.timing.requestStart >= 0) {
+    ttfb = performance.timing.responseStart - performance.timing.requestStart
+  }
+  return ttfb;
 }
 
 function findGdprStatus(gdprApplies, gdprData, apiVersion) {

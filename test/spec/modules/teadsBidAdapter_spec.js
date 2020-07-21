@@ -189,6 +189,17 @@ describe('teadsBidAdapter', () => {
       expect(payload.pageReferrer).to.deep.equal(document.referrer);
     });
 
+    it('should add timeToFirstByte info to payload', function () {
+      const request = spec.buildRequests(bidRequests, bidderResquestDefault);
+      const payload = JSON.parse(request.data);
+
+      const performance = window.performance || window.webkitPerformance || window.msPerformance || window.mozPerformance;
+      const ttfbExpected = performance.timing.responseStart - performance.timing.requestStart;
+
+      expect(payload.timeToFirstByte).to.exist;
+      expect(payload.timeToFirstByte).to.deep.equal(ttfbExpected);
+    })
+
     it('should send GDPR to endpoint with 11 status', function() {
       let consentString = 'JRJ8RKfDeBNsERRDCSAAZ+A==';
       let bidderRequest = {
