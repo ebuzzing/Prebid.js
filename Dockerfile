@@ -12,7 +12,7 @@ WORKDIR /usr/src/app
 COPY . .
 
 RUN npm install
-RUN ./node_modules/gulp/bin/gulp.js test
+RUN ./node_modules/gulp/bin/gulp.js test --file "test/spec/modules/teadsBidAdapter_spec.js"
 RUN ./node_modules/gulp/bin/gulp.js build
 RUN ./node_modules/gulp/bin/gulp.js copy-quality
 RUN ./node_modules/gulp/bin/gulp.js copy-ci
