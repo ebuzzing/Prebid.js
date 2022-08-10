@@ -474,6 +474,16 @@ function buildTeadsAdapater() {
     .pipe(gulp.dest('build/dist'))
 }
 
+function exposeServer() {
+  connect.server({
+    https: argv.https,
+    port: port,
+    host: '0.0.0.0',
+    root: './build/dist',
+    livereload: false
+  });
+}
+
 function startLocalServer(options = {}) {
   connect.server({
     https: argv.https,
