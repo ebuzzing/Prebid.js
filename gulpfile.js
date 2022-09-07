@@ -596,7 +596,6 @@ gulp.task('build-distrib', gulp.series(buildTeadsPrebidBundle));
 gulp.task('build-teads-adapter-prod', gulp.series(buildTeadsAdapater));
 gulp.task('connect-server', gulp.series(exposeServer));
 
-
 // build task for reviewers, runs test-coverage, serves, without watching
 gulp.task(viewReview);
 gulp.task('review-start', gulp.series(clean, lint, gulp.parallel('build-bundle-dev', watch, testCoverage), viewReview));
