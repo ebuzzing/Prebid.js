@@ -466,6 +466,13 @@ function buildTeadsPrebidBundle() {
     .pipe(gulp.dest('build/dist'))
 }
 
+function buildTeadsLocalDebugPrebidBundle() {
+  return gulp.src('build/dist/prebid.js')
+    .pipe(replace('SSP_PORT_8080_TCP_ADDR:SSP_PORT_8080_TCP_PORT', 'localhost:8080'))
+    .pipe(rename('prebid-debug.js'))
+    .pipe(gulp.dest('build/dist'))
+}
+
 function buildTeadsAdapater() {
   return gulp.src('modules/teadsBidAdapter.js')
     .pipe(replace('SSP_PORT_8080_TCP_ADDR:SSP_PORT_8080_TCP_PORT', 'a.teads.tv'))
@@ -595,6 +602,9 @@ gulp.task('copy-ci', gulp.series(copyCI));
 gulp.task('build-distrib', gulp.series(buildTeadsPrebidBundle));
 gulp.task('build-teads-adapter-prod', gulp.series(buildTeadsAdapater));
 gulp.task('connect-server', gulp.series(exposeServer));
+
+gulp.task('serve-teads', gulp.series(clean, 'build-bundle-prod', buildTeadsLocalDebugPrebidBundle, startLocalServer));
+gulp.task('serve-teads-with-fakeserver', gulp.series(clean, 'build-bundle-prod', buildTeadsLocalDebugPrebidBundle, gulp.parallel(() => startIntegServer(), startLocalServer)));
 
 // build task for reviewers, runs test-coverage, serves, without watching
 gulp.task(viewReview);

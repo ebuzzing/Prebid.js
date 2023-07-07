@@ -96,7 +96,7 @@ Once your branch is remotely on `ebuzzing/Prebid.js` you can open the PR directl
 
 To build only prebid.js file with Teads modules :
 
-    gulp build --modules=userId,consentManagement,teadsIdSystem,teadsBidAdapter
+    gulp build --modules=userId,consentManagement,consentManagementGpp,teadsIdSystem,teadsBidAdapter
 
 You can add any other modules at the end of the list
 
@@ -111,3 +111,44 @@ Example :
 
 To functionnal test new dev on teadsIdSystem or teadsBidAdapter, please follow this page [How to debug with Charles Proxy](https://teads.atlassian.net/wiki/spaces/SSP/pages/4413590206/Debug+with+Charles)
 
+## Testing Locally on Test Page
+
+### Fake endpoint
+To try the teadsBidAdapter with local changes on a test page you can use a custom local page with the commands :
+
+```
+gulp serve-teads --modules=userId,consentManagement,consentManagementGpp,teadsIdSystem,teadsBidAdapter
+```
+
+This will automatically build your prebid.js and start a local server on http://localhost:9999. \
+Then go to http://localhost:9999/test/pages/instreamTeads.html to see a page integrated with teadsBidAdapter. \
+On the page, open the console and go to the Network tab you should see the teads bid-request being requested. Refresh the page if you can't see the bid-request. \
+The request is an HTTP GET request on the endpoint `debug.com/hb/bid-request` which is a fake url not used for Teads production so it will not return a bid-response because the response is not mocked and the URL is not the production one.
+
+In the command we explicitly specify to only have Teads modules in the prebid.js script, if you want all modules (other bid adapter, consent modules etc ...) feel free to remove the `--modules` option.
+
+
+### Localhost endpoint
+If you want to connect a local SSP to the prebid test page you can use the following command :
+
+```
+serve-teads-local --modules=userId,consentManagement,consentManagementGpp,teadsIdSystem,teadsBidAdapter
+```
+
+This will do the same steps as the command before but the request endpoint will be localhost:8080/hb/bid-request, so if you have a SSP running locally the request should reach it.
+
+More information how to run locally the SSP : [service-rtb documentation](https://github.com/ebuzzing/service-rtb/blob/master/integration-tests/README.md)
+
+### Mock responses
+
+If you want to mock the bid request and the bid response, you can use the fakeserver : [fake-sever readme](test/fake-server/README.md) \
+You can use the following commands : 
+
+```
+serve-teads-with-fakeserver --modules=userId,consentManagement,consentManagementGpp,teadsIdSystem,teadsBidAdapter
+```
+```
+serve-teads-local-with-fakeserver --modules=userId,consentManagement,consentManagementGpp,teadsIdSystem,teadsBidAdapter
+```
+
+This will both start local server and fakeserver. You can use both the fake endpoint or the localhost url.
