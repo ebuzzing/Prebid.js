@@ -1,7 +1,8 @@
-FROM node:12.22.12-bullseye
+# Force use of amd64 image as chrome is not available in ARM for debian
+FROM --platform=linux/amd64 node:16.20-bookworm
 
 # https://www.google.com/linuxrepositories/
-RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
 RUN echo 'deb http://dl.google.com/linux/chrome/deb/ stable main' >> /etc/apt/sources.list
 RUN apt-get update && apt-get install --no-install-recommends -y google-chrome-stable
 
