@@ -20,7 +20,6 @@ var gulpif = require('gulp-if');
 var sourcemaps = require('gulp-sourcemaps');
 var through = require('through2');
 var fs = require('fs');
-var rename = require('gulp-rename');
 var jsEscape = require('gulp-js-escape');
 const path = require('path');
 const execa = require('execa');
